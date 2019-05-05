@@ -71,8 +71,49 @@ public class CustomerTest {
         assertThat(p.fruit.stock, is(0)); // 10 - 10 = 0 (Money + 5000)
         assertTrue(p.getMoney() == 20000);
     }
+    @Test
+    public void testingMockObject() throws IllegalAccessException { // mock 객체를 이용해 spendMoney함수가 5번 호출되는지 확인
+        Customer customer = mock(Customer.class);
+        customer.spendMoney(100);
+        customer.spendMoney(10000);
+        customer.spendMoney(1500);
+        customer.spendMoney(3100);
+        customer.spendMoney(2100);
+        verify(customer, times(5)).spendMoney(anyInt());
+    }
 
+    @Test
+    public void onlyReturnTwoCount() {  // Customer클래스의 getCount 함수 실행시 반드시 2를 반환하는지 확인
+        Customer customer = mock(Customer.class);
+        when(customer.getCount()).thenReturn(2);
+        assertTrue(customer.getCount()==2);
+    }
 
+    @Test(expected = IllegalAccessException.class)
+    public void checkFullInventory() throws IllegalAccessException {
+        Customer customer = new Customer();
+        customer.spendMoney(5000);
+        customer.spendMoney(2000);
+        customer.spendMoney(16000);
+        customer.spendMoney(1000);
+    }
 
+    @Test(expected = RuntimeException.class)
+    public void testDoThrow() throws IllegalAccessException {
+        // 0을 입력시 IllegalArgumentException 발생
+        Customer customer = mock(Customer.class);
+        doThrow(new RuntimeException()).when(customer).spendMoney(0);
+        customer.spendMoney(0);
+    }
+
+    @Test
+    public void testMockVerifyWithTimes() { // 해당 함수 몇번 호출 했는지 확인
+        Producer producer = mock(Producer.class);
+        producer.sellFruit(5);
+        producer.sellFruit(3);
+        producer.sellCellPhone(2);
+        producer.sellCloth(2);
+        verify(producer, times(2)).sellFruit(anyInt()); // 몇개를 팔았는지에 상관없이 sellFruit 함수 호출 횟수가 2번이 맞는지 확인
+    }
 
 }
