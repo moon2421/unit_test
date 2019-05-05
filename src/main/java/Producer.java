@@ -22,4 +22,16 @@ public class Producer {
     public static int getMoney() {
         return money;
     }
+    public void sellCellPhone(int num) {
+        this.cellphone.stock -= num;
+        this.money += (5000 * num);
+    }
+    public void sellCloth(int num) {
+        this.cloth.stock -= num;
+        this.money += (2000 * num);
+    }
+    public void sellFruit(int num) {
+        this.fruit.stock -= num;
+        this.money += (500 * num);
+    }
 }

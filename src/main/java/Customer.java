@@ -26,4 +26,18 @@ public class Customer {
         return this.inventory;
     }
 
+    public void spendMoney(int money) throws IllegalAccessException {
+        if(money > this.money || this.count == 3)
+            throw new IllegalAccessException();
+
+
+        this.money=this.money-money;
+        this.count++;
+    } //돈을 뺴고 테스팅에서확인
+
+
+    public int getCount(){
+        return this.count;
+    }
+
 }
